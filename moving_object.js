@@ -6,12 +6,18 @@
             function (pos, vel, radius, color) {
         this.pos = pos;
         this.vel = vel;
+        this.bearing = 0;
         this.radius = radius;
         this.color = color;
     };
 
     MovingObject.prototype.move = function () {
-        this.pos = this.pos + this.vel;
+        // velocity in pixels/second
+        var fps = Asteroids.Game.FPS;
+        var pxPerSec = this.vel[0] / fps;
+        var newx = this.pos[0] + pxPerSec * Math.cos(this.vel[1]);
+        var newy = this.pos[1] + pxPerSec * Math.sin(this.vel[1]);
+        this.pos = [newx, newy];
     };
 
     MovingObject.prototype.draw = function (ctx) {
