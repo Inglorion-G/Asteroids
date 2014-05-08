@@ -9,7 +9,7 @@
     };
 
     Asteroid.COLOR = "black";
-    Asteroid.RADIUS = 20;
+    Asteroid.RADIUS = 30;
 
     Asteroid.inherits(Asteroids.MovingObject);
 
@@ -17,7 +17,7 @@
     Asteroid.randomAsteroid = function (maxX, maxY) {
         var posX = maxX * Math.random();
         var posY = maxY * Math.random();
-        while (posX > 200 && posX < 300 && posY > 200 && posY < 300) {
+        while (posX > 220 && posX < 280 && posY > 220 && posY < 280) {
             posX = maxX * Math.random();
             posY = maxY * Math.random();
         }
@@ -26,7 +26,7 @@
         return new Asteroid(
             astPos,
             Asteroids.randomVec(),
-            Asteroid.RADIUS,
+            (Math.random() * Asteroid.RADIUS) + 10,
             Asteroid.COLOR
         );
     };
