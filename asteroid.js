@@ -1,4 +1,3 @@
-
 (function (root) {
 
     var Asteroids = root.Asteroids = (root.Asteroids || {});
@@ -33,8 +32,3 @@
 
 
 })(this);
-
-
-// var MKXIII = Asteroids.Asteroid.randomAsteroid(100,100);
-// console.log(MKXIII);
-// var test = new Asteroids.Asteroid([50,50],[2,3], 1, "black");

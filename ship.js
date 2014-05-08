@@ -21,7 +21,7 @@
         // ctx.lineWidth = 1;
         // ctx.stroke();
                //    top     left    right
-        var v = [[0,-5],[0,5],[20,0]];
+        var v = [[-5,-5],[-5,5],[10, 0]];
 
         // ctx.save();
         // ctx.fillRect(0, 0, can.width, can.height);
@@ -29,7 +29,7 @@
         ctx.save();
         ctx.translate(this.pos[0],this.pos[1]);
         ctx.rotate(this.bearing);
-        ctx.fillStyle = "blue";
+        ctx.fillStyle = "orange";
         ctx.strokeStyle = "blue";
         ctx.beginPath();
         ctx.moveTo(v[0][0],v[0][1]);
@@ -66,7 +66,7 @@
     };
 
     Ship.RADIUS = 7;
-    Ship.COLOR = "blue";
+    Ship.COLOR = "green";
 
     key('w', function(event, handler){
         var changeVector = [2, -Math.PI / 2];
@@ -75,21 +75,15 @@
     });
 
     key('a', function(event, handler){
-        // game.ship.vel[1] = 0;
-        // game.ship.vel[0] -= 2;
         game.ship.bearing -= 0.1;
     });
 
     key('s', function(event, handler){
-        // game.ship.vel[1] = - Math.PI / 2;
-        // game.ship.vel[0] -= 2
         var changeVector = [2, Math.PI / 2];
         game.ship.changeVel(changeVector);
     });
 
     key('d', function(event, handler){
-        // game.ship.vel[1] = 0;
-        // game.ship.vel[0] += 2;
         var changeVector = [2, 0];
         game.ship.bearing += 0.1;
     });

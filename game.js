@@ -5,7 +5,7 @@
     var Game = Asteroids.Game = function (ctx) {
         this.ctx = ctx;
         this.asteroids = [];
-        this.addAsteroids(15);
+        this.addAsteroids(1);
         this.bullets = [];
 
         var pos = [Asteroids.Game.DIM_X / 2, Asteroids.Game.DIM_Y / 2];
