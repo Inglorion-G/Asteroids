@@ -6,7 +6,6 @@
             function (pos, vel, radius, color) {
         this.pos = pos;
         this.vel = vel;
-        this.bearing = 0;
         this.radius = radius;
         this.color = color;
     };

@@ -4,6 +4,7 @@
 
     var Ship = Asteroids.Ship = function (pos, vel) {
         Asteroids.MovingObject.call(this, pos, vel, Ship.RADIUS, Ship.COLOR);
+        this.bearing = 0;
     };
 
     Ship.inherits(Asteroids.MovingObject);
@@ -21,36 +22,63 @@
         ctx.stroke();
     }
 
-    Ship.prototype.power = function (impulse) {
+    Ship.prototype.fireBullet = function (game) {
+        return new Asteroids.Bullet(this.pos, this.bearing, game);
+    };
 
-    }
+    Ship.prototype.changeVel = function (impulse) {
+        var origXComponent = this.vel[0] * Math.cos(this.vel[1]);
+        var origYComponent = this.vel[0] * Math.sin(this.vel[1]);
 
-    key('w', function(event, handler){
-        game.ship.vel[1] = - Math.PI / 2;
-        game.ship.vel[0] += 2;
-        console.log(game.ship.vel)
-        console.log(handler.shortcut, handler.scope);
-    });
+        var newXComponent = impulse[0] * Math.cos(impulse[1]);
+        var newYComponent = impulse[0] * Math.sin(impulse[1]);
 
-    key('a', function(event, handler){
-        game.ship.vel[1] = 0;
-        game.ship.vel[0] -= 2;
-        console.log(handler.shortcut, handler.scope);
-    });
+        var newSpeed = Math.pow(
+            Math.pow(origXComponent + newXComponent, 2) +
+            Math.pow(origYComponent + newYComponent, 2),
+            0.5);
+        var newDirection = Math.atan((origYComponent + newYComponent) /
+              (origXComponent + newXComponent));
 
-    key('s', function(event, handler){
-        game.ship.vel[1] = - Math.PI / 2;
-        game.ship.vel[0] -= 2
-        console.log(handler.shortcut, handler.scope);
-    });
+        this.vel = [newSpeed, newDirection];
 
-    key('d', function(event, handler){
-        game.ship.vel[1] = 0;
-        game.ship.vel[0] += 2;
-        console.log(handler.shortcut, handler.scope);
-    });
+    };
 
     Ship.RADIUS = 7;
     Ship.COLOR = "blue";
+
+    key('w', function(event, handler){
+        var changeVector = [2, -Math.PI / 2];
+        game.ship.changeVel(changeVector);
+        console.log(game.ship.vel)
+    });
+
+    key('a', function(event, handler){
+        // game.ship.vel[1] = 0;
+        // game.ship.vel[0] -= 2;
+        var changeVector = [2, Math.PI];
+        game.ship.changeVel(changeVector);
+
+    });
+
+    key('s', function(event, handler){
+        // game.ship.vel[1] = - Math.PI / 2;
+        // game.ship.vel[0] -= 2
+        var changeVector = [2, Math.PI / 2];
+        game.ship.changeVel(changeVector);
+
+    });
+
+    key('d', function(event, handler){
+        // game.ship.vel[1] = 0;
+        // game.ship.vel[0] += 2;
+        var changeVector = [2, 0];
+        game.ship.changeVel(changeVector);
+
+    });
+
+    key('space', function(event, handler){
+        game.fireBullet();
+    });
 
 })(this);

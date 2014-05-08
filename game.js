@@ -6,6 +6,7 @@
         this.ctx = ctx;
         this.asteroids = [];
         this.addAsteroids(10);
+        this.bullets = [];
 
         var pos = [Asteroids.Game.DIM_X / 2, Asteroids.Game.DIM_Y / 2];
         var vel = [0, 0];
@@ -33,17 +34,39 @@
         return false;
     };
 
+    Game.prototype.removeBullet = function(bullet) {
+        this.bullets.splice(this.bullets.indexOf(bullet), 1);
+    };
+
+    Game.prototype.checkBullets = function () {
+        var bltRadius = Asteroids.Bullet.RADIUS;
+        var limit = Game.DIM_X + bltRadius;
+
+        this.bullets.forEach( function(bullet) {
+            if (bullet.pos[0] > limit || bullet.pos[1] > limit) {
+                game.removeBullet(bullet);
+            }
+        });
+    };
+
+    Game.prototype.removeAsteroid = function(asteroid) {
+        this.asteroids.splice(this.asteroids.indexOf(asteroid), 1);
+    };
+
     Game.prototype.checkAsteroids = function () {
-        var remainingAsteroids = [];
         var astRadius = Asteroids.Asteroid.RADIUS;
         var limit = Game.DIM_X + astRadius;
-        for (var i = 0; i < this.asteroids.length; i++) {
-            if (this.asteroids[i].pos[0] < limit &&
-                this.asteroids[i].pos[1] < limit) {
-                remainingAsteroids.push(this.asteroids[i]);
+
+        this.asteroids.forEach( function(asteroid) {
+            if (asteroid.pos[0] > limit || asteroid.pos[1] > limit) {
+                game.removeAsteroid(asteroid);
             }
-        }
-        this.asteroids = remainingAsteroids;
+        });
+    };
+
+    Game.prototype.fireBullet = function () {
+        var newBullet = this.ship.fireBullet(this);
+        this.bullets.push(newBullet);
     };
 
     Game.prototype.draw = function (ctx) {
@@ -54,6 +77,9 @@
         this.asteroids.forEach( function (asteroid) {
             asteroid.draw(ctx);
         });
+        this.bullets.forEach( function (bullet) {
+            bullet.draw(ctx);
+        });
     };
 
     Game.prototype.move = function () {
@@ -63,11 +89,15 @@
         this.asteroids.forEach( function (asteroid) {
             asteroid.move();
         });
+        this.bullets.forEach( function (bullet) {
+            bullet.move();
+        });
     };
 
     Game.prototype.step = function () {
         this.move();
         this.checkAsteroids();
+        this.checkBullets();
         this.draw(this.ctx);
         if (this.checkCollisions()) {
             this.stop();
