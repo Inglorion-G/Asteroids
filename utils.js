@@ -10,7 +10,7 @@
     };
 
     Asteroids.randomVec = function() {
-        var speed = 30 * Math.random();
+        var speed = 50 * Math.random();
         var direction = 2 * Math.PI * Math.random() - Math.PI;
         return [speed, direction];
     }
