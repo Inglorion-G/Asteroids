@@ -12,9 +12,11 @@
 
 </head>
 <body>
-    <canvas width="500" height="500"></canvas>
+    <canvas></canvas>
     <script>
         var canvas = document.getElementsByTagName("canvas")[0];
+				canvas.height = window.innerHeight;
+				canvas.width = window.innerWidth;
         var ctx = canvas.getContext("2d");
         var game = new Asteroids.Game(ctx);
         game.start();

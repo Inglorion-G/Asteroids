@@ -3,8 +3,8 @@
     var Asteroids = root.Asteroids = (root.Asteroids || {});
 
     var Ship = Asteroids.Ship = function (pos, vel) {
-        Asteroids.MovingObject.call(this, pos, vel, Ship.RADIUS, Ship.COLOR);
-        this.bearing = 0;
+      Asteroids.MovingObject.call(this, pos, vel, Ship.RADIUS, Ship.COLOR);
+      this.bearing = (0 * Math.PI) / 180;
     };
 
     Ship.inherits(Asteroids.MovingObject);
@@ -48,48 +48,59 @@
     };
 
     Ship.prototype.changeVel = function (impulse) {
-        var origXComponent = this.vel[0] * Math.cos(this.vel[1]);
-        var origYComponent = this.vel[0] * Math.sin(this.vel[1]);
+      var origXComponent = this.vel[0] * Math.cos(this.vel[1]);
+      var origYComponent = this.vel[0] * Math.sin(this.vel[1]);
 
-        var newXComponent = impulse[0] * Math.cos(impulse[1]);
-        var newYComponent = impulse[0] * Math.sin(impulse[1]);
+      var newXComponent = impulse[0] * Math.cos(impulse[1]);
+      var newYComponent = impulse[0] * Math.sin(impulse[1]);
 
-        var newSpeed = Math.pow(
-            Math.pow(origXComponent + newXComponent, 2) +
-            Math.pow(origYComponent + newYComponent, 2),
-            0.5);
-        var newDirection = Math.atan((origYComponent + newYComponent) /
+      var newSpeed = Math.pow(
+          Math.pow(origXComponent + newXComponent, 2) +
+          Math.pow(origYComponent + newYComponent, 2),
+          0.5);
+					
+      var newDirection = Math.atan((origYComponent + newYComponent) /
               (origXComponent + newXComponent));
+							console.log(newDirection)
 
-        this.vel = [newSpeed, newDirection];
+			var newXDirection = origXComponent + newXComponent
+			
+			var newYDirection = origYComponent + newYComponent
+
+      this.vel = [newSpeed, newDirection];
 
     };
+		
+		//line 581 of codepen http://codepen.io/janklever/pen/DGacH?editors=001
 
-    Ship.RADIUS = 7;
+    Ship.RADIUS = 6;
     Ship.COLOR = "green";
 
     key('w', function(event, handler){
-        var changeVector = [2, -Math.PI / 2];
-        game.ship.changeVel(changeVector);
-        console.log(game.ship.vel)
+      var changeVector = [4, -Math.PI / 2];
+      game.ship.changeVel(changeVector);
+      console.log(game.ship.vel)
     });
 
     key('a', function(event, handler){
-        game.ship.bearing -= 0.1;
+      game.ship.bearing -= (10 * Math.PI) / 180;
+			console.log(game.ship.bearing)
     });
 
     key('s', function(event, handler){
-        var changeVector = [2, Math.PI / 2];
-        game.ship.changeVel(changeVector);
+      var changeVector = [4, Math.PI / 2];
+      game.ship.changeVel(changeVector);
+			console.log(game.ship.vel)
     });
 
     key('d', function(event, handler){
-        var changeVector = [2, 0];
-        game.ship.bearing += 0.1;
+      var changeVector = [2, 0];
+      game.ship.bearing += (10 * Math.PI) / 180;
+			console.log(game.ship.bearing)
     });
 
     key('space', function(event, handler){
-        game.fireBullet();
+      game.fireBullet();
     });
 
 })(this);
